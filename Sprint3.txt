@@ -1,0 +1,99 @@
+import java.util.ArrayList;
+import java.util.List;
+
+class Article {
+
+    final String getArticle;
+
+    Article(final String getArticle) {
+        this.getArticle = getArticle;
+    }
+}
+interface Subscriber {
+    void send(Article article);
+   
+}
+     создайте интерфейс Subscriber
+     интерфейс должен иметь всего один метод `void send()`, который принимает на вход объект класса `Article`
+
+class OfflineSubscriber implements Subscriber {
+
+    private final String address;
+
+    public OfflineSubscriber(final String address) {
+        this.address = address;
+    }
+     public void send(Article article) {
+System.out.println(article.getArticle +  была доставлена по адресу  + address);
+     }
+     метод send интерфейса Subscriber должен выводить текст {article.getArticle} была доставлена по адресу {address}
+}
+
+class WebSite implements Subscriber{
+
+    private final String url;
+
+    public WebSite(final String url) {
+        this.url = url;
+    }
+   public void send(Article article) {
+     System.out.println(article.getArticle +  опубликована на страничке  + url);
+     }
+     метод send интерфейса Subscriber должен выводить текст {article.getArticle} опубликована на страничке {address}
+}
+
+class NewspaperPublisher {
+
+    private final ListArticle articles;
+    private final ListSubscriber subscribers = new ArrayList();
+
+     для отправки статей подписчикам, вам необходимо хранить их в списке
+     создайте пустой список подписчиков ListSubscriber
+
+    public NewspaperPublisher(final ListArticle articles) {
+        this.articles = articles;
+    }
+
+    public void subscribe(Subscriber offsubscriber) {
+        if (!subscribers.contains(offsubscriber)) {
+            subscribers.add(offsubscriber);  
+        } else {
+            System.out.println(Такой подписчик уже есть.);
+        }
+    }
+         Создайте метод subscribe() принимающий на вход любой объект, реализующий интерфейс Subscriber.
+             При вызове метода subscribe() новый подписчик должен добавляться в список подписчиков.
+             В списке подписчиков не должно быть дубликатов! Вы можете проеверить, есть ли данный подписчик в списке методом List.contains().
+
+    
+    public void unsubscribe(Subscriber offsubscriber1) {
+        if (subscribers.contains(offsubscriber1)) {
+            subscribers.remove(offsubscriber1);
+        } else {
+          System.out.println(Такого подписчика нет.);
+        }
+    }
+         Создайте метод unsubscribe() принимающий на вход любой объект, реализующий интерфейс Subscriber.
+             При вызове данного метода подписчик должен удаляться из списка подписчиков.
+  public void startWork() {
+        for (Article article  articles) {
+            for (Subscriber subscriber  subscribers) {
+                subscriber.send(article);
+            }
+        }
+    }
+    
+         Создайте метод startWork().
+             Метод должен отправлять все статьи, которые хранятся в данный момент в списке articles, всем подписчикам из списка.
+             Для отправки используйте метод send() класса Subscriber.
+
+    
+    public void publishNewArticle(final Article article) {
+        articles.add(article);
+        for (Subscriber subscriber  subscribers) {
+            subscriber.send(article);
+        }
+    }
+    }
+         Создайте метод publishNewArticle(). Метод принимает на вход объект класса Article.
+             Метод должен добавлять новую статью в список статей articles, а затем рассылать её всем подписчикам из списка.
